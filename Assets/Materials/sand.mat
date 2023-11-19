@@ -114,7 +114,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _smoothness: 0.12
-    - _spikiness: 0.02
+    - _spikiness: 0.015
     m_Colors:
     - _BaseColor: {r: 0.7735849, g: 0.63776153, b: 0.52910286, a: 1}
     - _Color: {r: 0.9528302, g: 0.6350737, b: 0.4449537, a: 1}
