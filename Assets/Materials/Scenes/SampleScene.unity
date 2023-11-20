@@ -302,7 +302,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &308009660
 MonoBehaviour:
@@ -434,6 +434,63 @@ Light:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66b7b0fcc741bd7438f7b1c819fc7c91, type: 3}
+--- !u!1001 &1978803668
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 70.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.59
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 104.02
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.67121464
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.68161035
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.17270656
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.23462896
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -84.911
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 82.773
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -116.287
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
+      propertyPath: m_Name
+      value: Corrugated Metal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 99bdc5a8e20bc5f4eb19301fd12372e1, type: 3}
 --- !u!1001 &2031275315
 PrefabInstance:
   m_ObjectHideFlags: 0
