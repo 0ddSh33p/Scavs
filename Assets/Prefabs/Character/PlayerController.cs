@@ -5,13 +5,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 4, crouchSpeed = 2, runSpeed = 7, jumpH = 12, maxGround = 0.2f, grav = 0.2f, sensitivity = 0.5f;
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] private GameObject cam;
+    [SerializeField] private GameObject cam, flashLight;
 
     private Rigidbody rb;
     private Vector3 vel;
     private float speed;
     private int gear;
-    private bool grounded;
+    private bool grounded, lIO = true;
     
  
     void Awake()
@@ -77,6 +77,16 @@ public class PlayerController : MonoBehaviour
             }
             else{
                 gear = 2;
+            }
+        }
+        if(Input.GetKeyDown("f")){
+            if(lIO){
+                flashLight.SetActive(false);
+                lIO = false;
+            }
+            else{
+                flashLight.SetActive(true);
+                lIO = true;
             }
         }
 
