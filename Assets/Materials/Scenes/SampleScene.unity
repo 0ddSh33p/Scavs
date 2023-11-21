@@ -130,17 +130,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 520732614381666172, guid: f5675258a07b5c248ab242b15281a1b1, type: 3}
-      propertyPath: mouse
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 6052229312535591467, guid: f5675258a07b5c248ab242b15281a1b1, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6052229312535591467, guid: f5675258a07b5c248ab242b15281a1b1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -94.57822
+      value: 64.46
       objectReference: {fileID: 0}
     - target: {fileID: 6052229312535591467, guid: f5675258a07b5c248ab242b15281a1b1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -148,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6052229312535591467, guid: f5675258a07b5c248ab242b15281a1b1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 99.074844
+      value: 82.76
       objectReference: {fileID: 0}
     - target: {fileID: 6052229312535591467, guid: f5675258a07b5c248ab242b15281a1b1, type: 3}
       propertyPath: m_LocalRotation.w

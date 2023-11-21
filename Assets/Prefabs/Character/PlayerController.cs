@@ -1,28 +1,104 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed, mouse;
+    [SerializeField] private float walkSpeed = 4, crouchSpeed = 2, runSpeed = 7, jumpH = 12, maxGround = 0.2f, grav = 0.2f, sensitivity = 0.5f;
+    [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject cam;
-    [SerializeField] private Rigidbody rb;
-    float x,z, mX = 0,mY = 0;
 
-    void FixedUpdate(){
-        x = Input.GetAxisRaw("Horizontal");
-        z = Input.GetAxisRaw("Vertical");
-        mX += Input.GetAxis("Mouse X") * mouse;
-        mY += Input.GetAxis("Mouse Y") * mouse;
+    private Rigidbody rb;
+    private Vector3 vel;
+    private float speed;
+    private int gear;
+    private bool grounded;
+    
+ 
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        gear = 2;
+    }
 
+
+
+
+    void FixedUpdate()
+    {
+
+        float horz = Input.GetAxisRaw("Horizontal");
+        float vert = Input.GetAxisRaw("Vertical");
         
-        rb.velocity += transform.forward * z * speed;
-        rb.velocity += transform.right * x * speed;
 
+        switch (gear){
+            case 1:
+                
+                speed = crouchSpeed;
+                break;
+            case 2:
+                
+                speed = walkSpeed;
+                break;
+            case 3:
+                
+                speed = runSpeed;
+                break;
+            default:
+                
+                speed = walkSpeed;
+                break;
+        }
 
+        if(!grounded) speed /= 1.3f;
+        if(horz != 0 && vert != 0){
+            speed /= 1.3f;
+        }
 
-        cam.transform.eulerAngles = new Vector3(-mY, gameObject.transform.eulerAngles.y, gameObject.transform.eulerAngles.z);
-        gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x,mX,gameObject.transform.eulerAngles.z);
+        vel = new Vector3(0,rb.velocity.y - grav,0);
+        
+        vel += transform.forward * vert * speed;
+        vel += transform.right * horz * speed;
+
+        rb.velocity = vel;
+    }
+
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.LeftShift)){
+            if(gear!=3){
+                gear = 3;
+            }
+            else{
+                gear = 2;
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.LeftControl)){
+            if(gear!=1){
+                gear = 1;                
+            }
+            else{
+                gear = 2;
+            }
+        }
+
+        if(Input.GetAxis("Mouse Y") != 0){
+            cam.transform.eulerAngles += new Vector3(-sensitivity * Input.GetAxis("Mouse Y"),0,0);
+        }
+
+        if(Input.GetAxis("Mouse X") != 0){
+            transform.eulerAngles += new Vector3(0,sensitivity * Input.GetAxis("Mouse X"),0);
+        }
+
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, maxGround, layerMask)){
+            grounded = true;
+        }
+        else{
+            grounded = false;
+        }
+
+        if (grounded && Input.GetKeyDown("space"))
+        {
+            rb.AddForce(Vector3.down * -jumpH * 10);
+        }
     }
 }
