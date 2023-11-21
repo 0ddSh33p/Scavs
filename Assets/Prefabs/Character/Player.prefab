@@ -250,15 +250,15 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.92144084, b: 0.7877358, a: 1}
   m_Intensity: 12
-  m_Range: 45
-  m_SpotAngle: 27.38611
-  m_InnerSpotAngle: 25.018328
+  m_Range: 60
+  m_SpotAngle: 33.63052
+  m_InnerSpotAngle: 27.396292
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
-    m_Resolution: -1
+    m_Resolution: 128
     m_CustomResolution: -1
-    m_Strength: 0.948
+    m_Strength: 0.933
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
