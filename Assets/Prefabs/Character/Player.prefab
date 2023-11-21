@@ -5184,7 +5184,7 @@ MonoBehaviour:
   crouchSpeed: 5
   runSpeed: 21
   jumpH: 35
-  maxGround: 1.2
+  maxGround: 3.85
   grav: 0.09
   sensitivity: 2
   layerMask:
