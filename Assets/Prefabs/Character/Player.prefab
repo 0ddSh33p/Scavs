@@ -5159,7 +5159,6 @@ GameObject:
   - component: {fileID: 520732614381666172}
   - component: {fileID: 383262630698953900}
   - component: {fileID: 5596629723503662353}
-  - component: {fileID: 4219181798144084498}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -5232,27 +5231,13 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9057564703669784065}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 28e29e2ad7b672f4d8cf9e527f0f3320, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.59002495
   m_Height: 5.9172573
   m_Direction: 1
   m_Center: {x: 0, y: -1.1967669, z: 0.09002495}
---- !u!136 &4219181798144084498
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9057564703669784065}
-  m_Material: {fileID: 13400000, guid: 28e29e2ad7b672f4d8cf9e527f0f3320, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.63
-  m_Height: 5.456609
-  m_Direction: 1
-  m_Center: {x: 0.01243816, y: -1.1365004, z: 0.07697812}
 --- !u!1001 &248207521586234307
 PrefabInstance:
   m_ObjectHideFlags: 0
