@@ -248,11 +248,11 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.92144084, b: 0.7877358, a: 1}
-  m_Intensity: 12
-  m_Range: 85.43945
-  m_SpotAngle: 30.065304
-  m_InnerSpotAngle: 26.059143
+  m_Color: {r: 0.9433962, g: 0.8797437, b: 0.81434673, a: 1}
+  m_Intensity: 16
+  m_Range: 125
+  m_SpotAngle: 23.710022
+  m_InnerSpotAngle: 21.9084
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -292,7 +292,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
+  m_ColorTemperature: 5547
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -1186,7 +1186,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 63
       minScalar: 10
       maxCurve:
         serializedVersion: 2
