@@ -1,7 +1,7 @@
-using Unity.Netcode;
+
 using UnityEngine;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 4, crouchSpeed = 2, runSpeed = 7, jumpH = 12, maxGround = 0.2f, grav = 0.2f, sensitivity = 0.5f;
     [SerializeField] private LayerMask layerMask;
@@ -11,7 +11,7 @@ public class PlayerController : NetworkBehaviour
     private Vector3 vel;
     private float speed;
     private int gear;
-    private bool grounded, lIO;
+    private bool grounded, lIO = true;
     
  
     void Awake()
@@ -25,7 +25,6 @@ public class PlayerController : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!IsOwner) return;
 
         float horz = Input.GetAxisRaw("Horizontal");
         float vert = Input.GetAxisRaw("Vertical");
@@ -33,15 +32,19 @@ public class PlayerController : NetworkBehaviour
 
         switch (gear){
             case 1:
+                
                 speed = crouchSpeed;
                 break;
             case 2:
+                
                 speed = walkSpeed;
                 break;
             case 3:
+                
                 speed = runSpeed;
                 break;
             default:
+                
                 speed = walkSpeed;
                 break;
         }
@@ -60,7 +63,6 @@ public class PlayerController : NetworkBehaviour
     }
 
     void Update(){
-        if (!IsOwner) return;
         if(Input.GetKeyDown(KeyCode.LeftShift)){
             if(gear!=3){
                 gear = 3;
@@ -77,7 +79,6 @@ public class PlayerController : NetworkBehaviour
                 gear = 2;
             }
         }
-
         if(Input.GetKeyDown("f")){
             if(lIO){
                 flashLight.SetActive(false);
