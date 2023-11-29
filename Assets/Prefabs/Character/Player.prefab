@@ -580,6 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7248151236362981240}
   - component: {fileID: 6006650417659228251}
+  - component: {fileID: 5023844905882739323}
   m_Layer: 6
   m_Name: PlayerCam
   m_TagString: MainCamera
@@ -616,6 +617,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0246d41a3259b5f42bdfe391f1cf68d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5023844905882739323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5763517000451940366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 396761456
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &5943723009959181447
 GameObject:
   m_ObjectHideFlags: 0
