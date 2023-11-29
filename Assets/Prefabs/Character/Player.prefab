@@ -579,7 +579,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7248151236362981240}
-  - component: {fileID: 6638963707655426082}
   - component: {fileID: 6006650417659228251}
   m_Layer: 6
   m_Name: PlayerCam
@@ -605,14 +604,6 @@ Transform:
   m_Father: {fileID: 3224144589579956830}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &6638963707655426082
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5763517000451940366}
-  m_Enabled: 1
 --- !u!114 &6006650417659228251
 MonoBehaviour:
   m_ObjectHideFlags: 0
