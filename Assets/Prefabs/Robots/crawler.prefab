@@ -1532,7 +1532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2300179205
+  GlobalObjectIdHash: 2260264325
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1562,21 +1562,6 @@ MonoBehaviour:
   - {fileID: 3773144858017824242}
   - {fileID: 3773144857970747560}
   - {fileID: 3773144856751215723}
-  pistonTops:
-  - {fileID: 2916938420612968258}
-  - {fileID: 1548141919228202240}
-  - {fileID: 1865697199561657002}
-  - {fileID: 4367198223824880165}
-  pistonBottoms:
-  - {fileID: 7900892585734694235}
-  - {fileID: 874976147031963593}
-  - {fileID: 2604854671983828791}
-  - {fileID: 3472767759456480182}
-  pistons:
-  - {fileID: 8807499348751300172}
-  - {fileID: 5162398959586806713}
-  - {fileID: 7601436643223978906}
-  - {fileID: 4823911163863145296}
   setpSize: 3
   stepHeight: 1.5
   stepSmooth: 10
@@ -1595,6 +1580,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338bcda074dfefa449de68db192056ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myPath: []
+  maxPointDistance: 0
+  speed: 0
   seen: {fileID: 3301494859769907096}
 --- !u!1 &4087806046541683651
 GameObject:
