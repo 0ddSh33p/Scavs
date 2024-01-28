@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3ac0489f9d6f42fae90b68b2e6201dcf51e5520e9b00eac3136433d9aa28845a
-size 835
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
+
+public class Flashlight : NetworkBehaviour
+{
+    [SerializeField] private float minSize =1, maxSize =1, changeSpeed = 2;
+    [SerializeField] private Light lit;
+
+    void Update(){
+        if (!IsOwner) return;
+        if(Input.mouseScrollDelta.y < 0 && lit.innerSpotAngle < maxSize){
+            lit.intensity -= changeSpeed/2;
+            lit.range -= changeSpeed;
+            lit.innerSpotAngle += changeSpeed;
+            lit.spotAngle += changeSpeed;
+        }
+        else if(Input.mouseScrollDelta.y > 0 && lit.innerSpotAngle > minSize){
+            lit.intensity += changeSpeed/2;
+            lit.range += changeSpeed;
+            lit.innerSpotAngle -= changeSpeed;
+            lit.spotAngle -= changeSpeed;
+        }
+    }
+}

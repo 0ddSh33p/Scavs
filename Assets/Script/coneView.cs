@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:40d706fa9ca3503b501cffc363cf539321853a255be69eed5bc6d0c356c0f114
-size 449
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class coneView : MonoBehaviour
+{
+    [HideInInspector] public Transform player;
+    [HideInInspector] public bool inView;
+
+     private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 6){
+            inView = true;
+            player = other.gameObject.transform;
+        }
+    }
+
+}

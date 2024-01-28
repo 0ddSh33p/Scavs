@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ffd2e63ed9b9ebfa8031ace2b22cb0a38a4e6ce58f4b893dbfdbce2e4cf2a4bc
-size 1008
+using UnityEngine;
+
+public class TerrainBuilder : MonoBehaviour
+{
+    [SerializeField] private Mesh[] meshes;
+    [SerializeField] private float[] distances;
+
+    private MeshFilter filter;
+    private MeshCollider collides;
+    [SerializeField] private Transform player;
+    private float distance;
+        
+    void Awake(){
+        filter = GetComponent<MeshFilter>();
+        collides = GetComponent<MeshCollider>();
+    }
+
+    void Update(){
+        distance = (Mathf.Abs(player.position.x - transform.position.x) * Mathf.Abs(player.position.x - transform.position.x)) + 
+                   (Mathf.Abs(player.position.z - transform.position.z) * Mathf.Abs(player.position.z - transform.position.z));
+            
+        
+        for(int i = 0; i < distances.Length; i++){
+            if(distance > distances[i]){
+                filter.mesh = meshes[i];
+                collides.sharedMesh = meshes[i];
+            }
+        }
+
+        Mesh mMesh = filter.mesh;
+    }
+}

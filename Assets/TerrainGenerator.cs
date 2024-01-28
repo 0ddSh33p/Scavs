@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d78fe5ffed68ee7f87e6170ff655d9288750217e072cc5fd1ce2f5707a480cff
-size 471
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TerrainGenerator : MonoBehaviour
+{
+    [SerializeField] private Vector2 size, ofeset;
+    [SerializeField] private GameObject chunk;
+
+    void Start(){
+        for(int x = 0; x<size.x; x++){
+            for(int y = 0; y<size.y; y++){
+                Instantiate(chunk, new Vector3(x*ofeset.x,0,y*ofeset.y), Quaternion.identity);
+            }
+        }
+    }
+}
