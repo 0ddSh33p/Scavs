@@ -133,6 +133,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "0f84468c93714562a1ab641ac9c7b8a3"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "bac4d89edcb84fbeb4208b245f6a51c5"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "189688a657a04316b609428a71f0fee3"
                 },
                 "m_SlotId": 0
@@ -156,20 +170,6 @@
                     "m_Id": "6ebbaad783d7443cb4f07f585c91c33e"
                 },
                 "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "189688a657a04316b609428a71f0fee3"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "bac4d89edcb84fbeb4208b245f6a51c5"
-                },
-                "m_SlotId": 0
             }
         },
         {
@@ -432,10 +432,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -573.0,
-            "y": 593.0,
+            "x": -814.0000610351563,
+            "y": 571.0,
             "width": 105.0,
-            "height": 33.99993896484375
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -492,10 +492,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -468.0000305175781,
-            "y": 350.0,
-            "width": 161.00003051757813,
-            "height": 177.00006103515626
+            "x": -448.00006103515627,
+            "y": 361.0,
+            "width": 161.0,
+            "height": 177.0
         }
     },
     "m_Slots": [
@@ -882,7 +882,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Opacity",
     "m_StageCapability": 3,
-    "m_Value": 1.5,
+    "m_Value": 0.4000000059604645,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
