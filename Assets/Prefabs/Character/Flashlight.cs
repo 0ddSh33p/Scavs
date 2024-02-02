@@ -10,13 +10,13 @@ public class Flashlight : NetworkBehaviour
 
     void Update(){
         if (!IsOwner) return;
-        if(Input.mouseScrollDelta.y < 0 && lit.innerSpotAngle < maxSize){
+        if(Input.GetMouseButton(1) && Input.mouseScrollDelta.y < 0 && lit.innerSpotAngle < maxSize){
             lit.intensity -= changeSpeed/2;
             lit.range -= changeSpeed;
             lit.innerSpotAngle += changeSpeed;
             lit.spotAngle += changeSpeed;
         }
-        else if(Input.mouseScrollDelta.y > 0 && lit.innerSpotAngle > minSize){
+        else if(Input.GetMouseButton(1) && Input.mouseScrollDelta.y > 0 && lit.innerSpotAngle > minSize){
             lit.intensity += changeSpeed/2;
             lit.range += changeSpeed;
             lit.innerSpotAngle -= changeSpeed;
