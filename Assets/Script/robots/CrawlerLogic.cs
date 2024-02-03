@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,11 @@ public class CrawlerLogic : MonoBehaviour
     [HideInInspector] public List<Vector3> myPath = new List<Vector3>();
 
     [SerializeField] private float maxPointDistance, speed;
-    [SerializeField] private coneView seen;
+    [SerializeField] private bool hasPathing;
 
     private Transform target;
     private Rigidbody rb;
-    private int on = 0;
+    private int on = 1;
     private bool goodPath = false;
 
     void Awake(){
@@ -19,29 +20,39 @@ public class CrawlerLogic : MonoBehaviour
     }
 
     void Start(){
-        if(myPath.Count >= 2){
-            transform.position = myPath[0];
-            goodPath = true;
-        } else {
-            Debug.LogError("No Path Created for " + gameObject.name);
-        }
-    }
-
-    void Update(){
-        if(seen.inView){
-            target = seen.player;
-        } else {
-            if(goodPath){
-                transform.position += calculateDirection(myPath[on +1]) * speed * Time.deltaTime;
+        if(hasPathing){
+            myPath = GetComponent<PathEdit>().myPath;
+            if(myPath.Count >= 2){
+                transform.position = myPath[0];
+                goodPath = true;
+            } else {
+                Debug.LogError("No Path Created for " + gameObject.name);
             }
         }
     }
 
-    private Vector3 calculateDirection(Vector3 target){
-        
-        float x = target.x - transform.position.x;
-        float z = target.z - transform.position.z;
+    void Update(){
 
-        return new Vector3(x,0,z);
+        if(hasPathing && goodPath){
+            if(MathF.Abs(transform.position.x - myPath[on].x) < maxPointDistance && MathF.Abs(transform.position.z - myPath[on].z) < maxPointDistance){
+                on++;
+            }
+            if(on >= myPath.Count) on = 0;
+        }
+    }
+
+    void FixedUpdate(){
+        if(hasPathing && goodPath){
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x,calculateDirection(myPath[on],transform.position),transform.eulerAngles.z);
+            rb.velocity = speed * transform.forward;
+        }
+    }
+
+    private float calculateDirection(Vector3 to, Vector3 from){
+        
+        float x = to.x - from.x;
+        float z = to.z - from.z;
+
+        return Mathf.Rad2Deg*MathF.Atan2(x,z);
     }
 }

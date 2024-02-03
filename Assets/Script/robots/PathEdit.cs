@@ -6,13 +6,11 @@ using UnityEngine;
 public class PathEdit : MonoBehaviour
 {
     public List<Vector3> myPath = new List<Vector3>();
-    [SerializeField] private bool ClearAllPoints;
-    [SerializeField] private CrawlerLogic logic;
+    [SerializeField] private bool ClearAllPoints = false;
 
     void Update(){
         if(!Application.isPlaying && ClearAllPoints){
             myPath = new List<Vector3>();
-            logic.myPath = new List<Vector3>();
             ClearAllPoints = false;
         }
     }
