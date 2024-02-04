@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.09803922, g: 0.036745604, b: 0.028943395, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.02
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: e144f3fd0005992459ff932fce5d29b8, type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: e3970c7f63f52ac44bf2080bc82ea1fc, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: a0c006c582a0a77439b9e1f2bf6b3480, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2102,7 +2102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1419513258
 MonoBehaviour:
   m_ObjectHideFlags: 0
