@@ -1409,6 +1409,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dc4966afa19a384448c6824bfcbb10cd, type: 3}
   m_PrefabInstance: {fileID: 657557687}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &666358715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 666358719}
+  - component: {fileID: 666358718}
+  - component: {fileID: 666358717}
+  - component: {fileID: 666358716}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &666358716
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666358715}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &666358717
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666358715}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &666358718
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666358715}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &666358719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666358715}
+  m_LocalRotation: {x: -0, y: -0.2190113, z: -0, w: 0.9757223}
+  m_LocalPosition: {x: -88.15, y: 38.82, z: -14.26}
+  m_LocalScale: {x: 3.3674, y: 10.307, z: 10.307}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: -25.302, z: 0}
 --- !u!224 &686035082 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8729090857905232521, guid: 034a965f069e18540af839aa34d16168, type: 3}
@@ -3976,7 +4073,7 @@ GameObject:
   - component: {fileID: 2910879629449116952}
   - component: {fileID: 3787683294401336583}
   - component: {fileID: 6276306497279319278}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ViewConeA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3995,7 +4092,7 @@ GameObject:
   - component: {fileID: 3414702351645067363}
   - component: {fileID: 5508036469626056605}
   - component: {fileID: 6706512264145296762}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PathFindingTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5137,6 +5234,9 @@ MonoBehaviour:
   turnSmooth: 0
   hasPathing: 1
   pFinder: {fileID: 6276306497279319278}
+  obsticles:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!23 &5545266479069556208
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6104,7 +6204,7 @@ GameObject:
   - component: {fileID: 5335060886027318276}
   - component: {fileID: 5592301286852746253}
   - component: {fileID: 6532340954363777064}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

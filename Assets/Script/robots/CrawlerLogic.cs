@@ -8,15 +8,17 @@ public class CrawlerLogic : MonoBehaviour
     [HideInInspector] public List<Vector3> myPath = new List<Vector3>();
 
     [SerializeField] private float maxPointDistance, speed;
-    [SerializeField] [Range(0.0f, 10.0f)] private float turnSmooth;
+    [SerializeField] [Range(0.0f, 10.0f)] private float turnSmooth, intelegence;
+
     [SerializeField] private bool hasPathing;
     [SerializeField] private ViewChecker pFinder;
+    [SerializeField] private LayerMask obsticles;
 
-
-    private Transform target;
     private Rigidbody rb;
-    private int on = 1;
+    private int on = 1, pause = 1;
     private bool goodPath = false, seenPlayer;
+    private Transform target;
+    private Vector3 lastSeen;
 
     void Awake(){
         rb = GetComponent<Rigidbody>();
@@ -36,19 +38,36 @@ public class CrawlerLogic : MonoBehaviour
 
     void Update(){
         if(seenPlayer){
-            //TODO add a chase mode
+            if(Physics.Linecast(transform.position, target.position,obsticles)){
+                if(intelegence < 3.34f){
+                    seenPlayer = false;
+                }else if(intelegence < 6.67f){
+                    pause = 0;
+                    //add timer before return
+                }else{
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x,calculateDirection(lastSeen,transform.position),transform.eulerAngles.z);
+                    if(MathF.Abs(transform.position.x - lastSeen.x) < maxPointDistance && MathF.Abs(transform.position.z - lastSeen.z) < maxPointDistance){
+                        //add timer before return
+                    }
+                }
+
+            } else {
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x,calculateDirection(target.position,transform.position),transform.eulerAngles.z);
+                lastSeen = target.position;
+            }
+
 
         }else if(hasPathing && goodPath){
-            transform.eulerAngles = (new Vector3(transform.eulerAngles.x,calculateDirection(myPath[on],transform.position),transform.eulerAngles.z) + (turnSmooth*transform.eulerAngles))/(turnSmooth+1);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x,calculateDirection(myPath[on],transform.position),transform.eulerAngles.z);
             if(MathF.Abs(transform.position.x - myPath[on].x) < maxPointDistance && MathF.Abs(transform.position.z - myPath[on].z) < maxPointDistance){
                 on++;
             }
             if(on >= myPath.Count) on = 0;
 
             if(pFinder.possiblePlayer != null){
-                if(!Physics.Linecast(transform.position, pFinder.possiblePlayer.transform.position)){
-                    Debug.Log("seen Player");
-                    //seenPlayer = ture;
+                if(!Physics.Linecast(transform.position, pFinder.possiblePlayer.transform.position,obsticles)){
+                    target = pFinder.possiblePlayer.transform;
+                    seenPlayer = true;
                 }
             }
         } else {
@@ -58,7 +77,7 @@ public class CrawlerLogic : MonoBehaviour
 
     void FixedUpdate(){
         if(seenPlayer){
-            //TODO chase mode physics
+            rb.velocity = new Vector3(0, rb.velocity.y, 0) + speed * transform.forward * pause;
         }else if(hasPathing && goodPath){
             
             rb.velocity = new Vector3(0, rb.velocity.y, 0) + speed * transform.forward;
@@ -70,5 +89,19 @@ public class CrawlerLogic : MonoBehaviour
         float z = to.z - from.z;
 
         return Mathf.Rad2Deg*MathF.Atan2(x,z);
+    }
+
+    void OnDrawGizmos()
+    {
+        if (target != null)
+        {
+            if(!Physics.Linecast(transform.position, pFinder.possiblePlayer.transform.position,obsticles)){
+                    
+                Gizmos.color = Color.green;
+            } else {
+                Gizmos.color = Color.red;
+            }
+            Gizmos.DrawLine(transform.position, pFinder.possiblePlayer.transform.position);
+        }
     }
 }
