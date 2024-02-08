@@ -8,16 +8,18 @@ public class CrawlerLogic : MonoBehaviour
     [HideInInspector] public List<Vector3> myPath = new List<Vector3>();
 
     [SerializeField] private float maxPointDistance, speed;
-    [SerializeField] [Range(0.0f, 30.0f)] private float turnSmooth, intelegence;
-
     [SerializeField] private bool hasPathing;
-    [SerializeField] private ViewChecker pFinder;
     [SerializeField] private LayerMask obsticles;
+
+    [SerializeField] [Range(0f, 30f)] private float turnSmooth, intelegence;
+    [SerializeField] [Range(0f, 10f)] private float suspitiousness;
+    [SerializeField] private ViewChecker pFinder;
+
+
 
     private Rigidbody rb;
     private int on = 1, pause = 1;
-    private bool goodPath = false, seenPlayer;
-    private Transform target;
+    private bool goodPath = false, seenPlayer, waiting;
     private GameObject pPlayer;
     private Vector3 lastSeen;
     private float lastY;
@@ -32,45 +34,51 @@ public class CrawlerLogic : MonoBehaviour
             if(myPath.Count >= 2){
                 transform.position = myPath[0];
                 goodPath = true;
-                lastY = transform.eulerAngles.y;
             } else {
                 Debug.LogError("No Path Created for " + gameObject.name);
             }
         }
+        lastY = transform.eulerAngles.y;
     }
 
     void Update(){
         if(seenPlayer){
-            if(Physics.Linecast(transform.position, target.position,obsticles)){
+            if(Physics.Linecast(transform.position, pPlayer.transform.position,obsticles)){
                 if(intelegence < 10f){
                     seenPlayer = false;
                 }else if(intelegence < 20f){
-                    pause = 0;
-                    //add timer before return
-                    seenPlayer = false;
+                    if(!waiting){
+                        StartCoroutine(PauseAndWait());
+                    }
                 }else{                 
-                    if(MathF.Abs(transform.position.x - lastSeen.x) < maxPointDistance && MathF.Abs(transform.position.z - lastSeen.z) < maxPointDistance){
-                        //add timer before return
+                    if(onPoint(lastSeen)){
+                        if(!waiting){
+                            StartCoroutine(PauseAndWait());
+                        }
                     }
                 }
                 
             } else {
-                lastSeen = target.position;
+                pause = 1;
+                waiting = false;
+                pPlayer = pFinder.possiblePlayer.gameObject;
+                lastSeen =  pPlayer.transform.position;
             }
 
 
         }else if(hasPathing && goodPath){
-            
-            if(MathF.Abs(transform.position.x - myPath[on].x) < maxPointDistance && MathF.Abs(transform.position.z - myPath[on].z) < maxPointDistance){
+            if(onPoint(myPath[on])){
                 on++;
             }
             if(on >= myPath.Count) on = 0;
 
             if(pFinder.possiblePlayer != null){
-                if(!Physics.Linecast(transform.position, pFinder.possiblePlayer.transform.position,obsticles)){
-                    target = pFinder.possiblePlayer.transform;
+                pPlayer = pFinder.possiblePlayer.gameObject;
+                if(!Physics.Linecast(transform.position, pPlayer.transform.position,obsticles)){
                     seenPlayer = true;
                 }
+            } else {
+                pPlayer = null;
             }
         } else {
             //TODO, add a roam mode
@@ -79,20 +87,37 @@ public class CrawlerLogic : MonoBehaviour
 
     void FixedUpdate(){
         if(seenPlayer){
-            if(Physics.Linecast(transform.position, target.position,obsticles)){
+            if(Physics.Linecast(transform.position, pPlayer.transform.position,obsticles)){
                 if(intelegence >= 20){
-                    rotate(lastSeen);
+                    if(!waiting){
+                        rotate(lastSeen);
+                    }
                 }
             }else{
-                rotate(target.position);
+                rotate(pPlayer.transform.position);
             }
-            rb.velocity = new Vector3(0, rb.velocity.y, 0) + speed * transform.forward * pause;
+            
         }else if(hasPathing && goodPath){
             rotate(myPath[on]);
-            rb.velocity = new Vector3(0, rb.velocity.y, 0) + speed * transform.forward;
         }
+        moveForward();
     }
 
+    IEnumerator PauseAndWait(){
+        waiting = true;
+        pause = 0;
+        yield return new WaitForSeconds(suspitiousness);
+        seenPlayer = false;
+        pause = 1;
+        waiting = false;
+    }
+
+    private void moveForward(){
+        rb.velocity = new Vector3(0, rb.velocity.y, 0) + speed * transform.forward * pause;
+    }
+    private bool onPoint(Vector3 point){
+        return MathF.Abs(transform.position.x - point.x) < maxPointDistance && MathF.Abs(transform.position.z - point.z) < maxPointDistance;
+    }
     private void rotate(Vector3 to){
         float turn;
         if(lastY - calculateDirection(to,transform.position) > 180){
@@ -118,11 +143,8 @@ public class CrawlerLogic : MonoBehaviour
     }
 
     void OnDrawGizmos()
-    {   if(pFinder.possiblePlayer != null){
-            pPlayer = pFinder.possiblePlayer.gameObject;
-        }
-        if (target != null)
-        {
+    {   if(pPlayer != null){
+
             if(!Physics.Linecast(transform.position, pPlayer.transform.position,obsticles)){
                     
                 Gizmos.color = Color.green;
