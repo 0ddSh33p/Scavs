@@ -59,8 +59,11 @@ public class CrawlerLogic : MonoBehaviour
                 }
                 
             } else {
-                pause = 1;
-                waiting = false;
+                if(waiting){
+                    StopCoroutine(PauseAndWait());
+                    pause = 1;
+                    waiting = false;
+                }
                 pPlayer = pFinder.possiblePlayer.gameObject;
                 lastSeen =  pPlayer.transform.position;
             }
