@@ -5,7 +5,9 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class NavMeshInstance : MonoBehaviour
 {
-    [HideInInspector] public Vector3[][] myVerts, dimes;
+    [HideInInspector] public Vector3[][] myVerts;
+    [HideInInspector] public float[][] dimes, intersects;
+
 
     [HideInInspector] public bool recivedData;
     [SerializeField] private int layer = 0, specI = -1;
@@ -16,10 +18,16 @@ public class NavMeshInstance : MonoBehaviour
         if(recivedData){
             for(int i = 0; i < myVerts.Length; i++){
                 if(viewAll || layer == i){
-                    Gizmos.color = Color.green;
+
                     for(int j =0; j<myVerts[i].Length; j++){
+                        if(intersects[i][j] >= 0){
+                            Gizmos.color = Color.green;
+                        }else {
+                            Gizmos.color = Color.red;
+                        }
+
                         if(specI == j || 0>specI){
-                            Gizmos.DrawCube(myVerts[i][j], dimes[i][j]);
+                            Gizmos.DrawCube(myVerts[i][j], new Vector3(dimes[i][j],dimes[i][j],dimes[i][j]));
                         }
                     }
                 }

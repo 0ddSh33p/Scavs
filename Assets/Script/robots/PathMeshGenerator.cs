@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEditor;
+using Unity.Mathematics;
 
 public class PathMeshGenerator : EditorWindow
 {
     private float minDensity = 5, maxDensity = 2, levels = 4;
     private Vector3 CornerA = new Vector3(10,10,10), CornerB;
-    private Vector3[][] meshVerts, sizes;
+    private Vector3[][] meshVerts;
+    private float[][] sizes, open;
+
     
     [MenuItem("Window/NavMesh")]
     public static void ShowWindow(){
@@ -14,7 +17,9 @@ public class PathMeshGenerator : EditorWindow
 
     private void buildMesh(){
         meshVerts = new Vector3[(int)levels+1][];
-        sizes = new Vector3[(int)levels+1][];
+        sizes = new float[(int)levels+1][];
+        open = new float[(int)levels+1][];
+
 
         for(int l = 0; l <= (int)levels; l++){
             float d = ((float)l/((int)levels) * minDensity) + (Mathf.Abs((float)l/((int)levels) - 1) * maxDensity), numX, numY, numZ;
@@ -24,7 +29,9 @@ public class PathMeshGenerator : EditorWindow
             numZ = (CornerA.z - CornerB.z)/d;
 
             meshVerts[l] = new Vector3[(int) ((numX+1)*(numY+1)*(numZ+1))];
-            sizes[l] = new Vector3[(int) ((numX+1)*(numY+1)*(numZ+1))];
+            sizes[l] = new float[(int) ((numX+1)*(numY+1)*(numZ+1))];
+            open[l] = new float[(int) ((numX+1)*(numY+1)*(numZ+1))];
+
             Debug.Log("Created mesh level " + l + " with " + meshVerts[l].Length + " points");
             int c = 0;
 
@@ -33,13 +40,30 @@ public class PathMeshGenerator : EditorWindow
                     for(int z = 0; z <= numZ; z++){
 
                         meshVerts[l][c] = new Vector3(x*d+CornerB.x, y*d+CornerB.y, z*d+CornerB.z);
-                        sizes[l][c] = new Vector3(d,d,d);
+                        sizes[l][c] = d;
+
+                        if(l==0){
+                            if(Physics.OverlapBox(meshVerts[l][c], new Vector3(d/2,d/2,d/2)).Length > 0){
+                                open[l][c] = -1;
+                            } else {
+                                open[l][c] = 1;
+                            }
+                        } else {
+                            for(int o = 0; o < meshVerts[0].Length; o++){
+                                if( (meshVerts[0][o].x - meshVerts[l][c].x) < d &&
+                                (meshVerts[0][o].y - meshVerts[l][c].y) < d &&
+                                (meshVerts[0][o].z - meshVerts[l][c].z) < d){
+                                    open[l][c] = (open[l][c] + open[0][o])/2;
+
+                                }
+                            }
+                        }
+
                         c++;
                     }       
                 }
             }
-            Debug.Log("Suceeded in creating a mesh");
-
+            Debug.Log("Suceeded in creating a mesh");;
         }
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         NavMeshInstance meshInstance = go.AddComponent<NavMeshInstance>();
@@ -50,7 +74,10 @@ public class PathMeshGenerator : EditorWindow
         go.name = "Nav Mesh";
         meshInstance.myVerts = meshVerts;
         meshInstance.dimes = sizes;
+        meshInstance.intersects = open;
+
         meshInstance.recivedData = true;
+
         Debug.Log("Done!");
     }
 
