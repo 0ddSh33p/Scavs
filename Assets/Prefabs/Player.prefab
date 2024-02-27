@@ -1191,6 +1191,7 @@ MonoBehaviour:
     m_Bits: 55
   cam: {fileID: 5763517000451940366}
   flashLight: {fileID: 6489059867403152999}
+  pOuter: {fileID: 9057564703669784065}
 --- !u!54 &8988326745938030325
 Rigidbody:
   m_ObjectHideFlags: 0

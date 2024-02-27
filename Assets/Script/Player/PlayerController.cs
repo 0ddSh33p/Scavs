@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
@@ -18,6 +19,10 @@ public class PlayerController : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody>();
         gear = 2;
+
+        if( GameObject.FindWithTag("PrimarySpawn") != null){
+            transform.position = GameObject.FindWithTag("PrimarySpawn").transform.position;
+        }
     }
 
 
