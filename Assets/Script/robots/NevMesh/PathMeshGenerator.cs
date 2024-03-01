@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEditor;
-using Unity.Mathematics;
+using System.Collections.Generic;
+
 
 public class PathMeshGenerator : EditorWindow
 {
     private float minDensity = 5, maxDensity = 2, levels = 4;
     private Vector3 CornerA = new Vector3(10,10,10), CornerB;
-    private Vector3[][] meshVerts;
-    private float[][] sizes, open;
+    private List<MeshPoint>[] meshPoints;
 
     
     [MenuItem("Window/NavMesh")]
@@ -16,9 +16,7 @@ public class PathMeshGenerator : EditorWindow
     }
 
     private void buildMesh(){
-        meshVerts = new Vector3[(int)levels+1][];
-        sizes = new float[(int)levels+1][];
-        open = new float[(int)levels+1][];
+        meshPoints = new List<MeshPoint>[(int)levels+1];
 
 
         for(int l = 0; l <= (int)levels; l++){
@@ -28,43 +26,57 @@ public class PathMeshGenerator : EditorWindow
             numY = (CornerA.y - CornerB.y)/d;
             numZ = (CornerA.z - CornerB.z)/d;
 
-            meshVerts[l] = new Vector3[(int) ((numX+1)*(numY+1)*(numZ+1))];
-            sizes[l] = new float[(int) ((numX+1)*(numY+1)*(numZ+1))];
-            open[l] = new float[(int) ((numX+1)*(numY+1)*(numZ+1))];
+            meshPoints[l] = new List<MeshPoint>();
 
-            Debug.Log("Created mesh level " + l + " with " + meshVerts[l].Length + " points");
+            Debug.Log("Created mesh level " + l + " with " + ((int) ((numX+1)*(numY+1)*(numZ+1))) + " points");
             int c = 0;
 
             for(int x = 0; x <= numX; x++){
                 for(int y = 0; y <= numY; y++){
                     for(int z = 0; z <= numZ; z++){
 
-                        meshVerts[l][c] = new Vector3(x*d+CornerB.x, y*d+CornerB.y, z*d+CornerB.z);
-                        sizes[l][c] = d;
+                        meshPoints[l].Add(new MeshPoint(l,new Vector3(x*d+CornerB.x, y*d+CornerB.y, z*d+CornerB.z),d));
 
                         if(l==0){
-                            if(Physics.OverlapBox(meshVerts[l][c], new Vector3(d/2,d/2,d/2)).Length > 0){
-                                open[l][c] = -1;
+                            Collider[] temp = Physics.OverlapBox(meshPoints[l][^1].getGlobalPos(), new Vector3(d/2,d/2,d/2));
+                            if(temp.Length > 0){
+                                foreach(Collider col in temp){
+                                    if(col.gameObject.layer != 3){
+                                        meshPoints[l][^1].setOpen(-1);
+                                    } else {
+                                        meshPoints[l][^1].setOpen(1);
+                                    }
+                                }
+                                
                             } else {
-                                open[l][c] = 1;
+                                meshPoints[l][meshPoints[l].Count - 1].setOpen(-1);
                             }
                         } else {
-                            for(int o = 0; o < meshVerts[0].Length; o++){
-                                if( (meshVerts[0][o].x - meshVerts[l][c].x) < d &&
-                                (meshVerts[0][o].y - meshVerts[l][c].y) < d &&
-                                (meshVerts[0][o].z - meshVerts[l][c].z) < d){
-                                    open[l][c] = (open[l][c] + open[0][o])/2;
-
+                            for(int o = 0; o < meshPoints[0].Count; o++){
+                                if(Mathf.Abs(meshPoints[0][o].getGlobalPos().x - meshPoints[l][c].getGlobalPos().x) < d/2 &&
+                                Mathf.Abs(meshPoints[0][o].getGlobalPos().y - meshPoints[l][c].getGlobalPos().y) < d/2 &&
+                                Mathf.Abs(meshPoints[0][o].getGlobalPos().z - meshPoints[l][c].getGlobalPos().z) < d/2){
+                                    meshPoints[l][c].setOpen(meshPoints[l][c].getOpen() + 1);
                                 }
                             }
+                            if(meshPoints[l][c].getOpen() >= d/meshPoints[0][0].getDensity() -1.5f){
+                                meshPoints[l][c].setOpen(1);
+                            } else {
+                                meshPoints[l][c].setOpen(-1);
+                            }
                         }
-
                         c++;
                     }       
                 }
             }
-            Debug.Log("Suceeded in creating a mesh");;
+            //clean layer
+            for(int i = meshPoints[l].Count -1; i >= 0; i--){
+                if(meshPoints[l][i].getOpen() < 0){
+                    meshPoints[l].RemoveAt(i);
+                }
+            }            
         }
+        Debug.Log("Suceeded in creating a mesh");
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         NavMeshInstance meshInstance = go.AddComponent<NavMeshInstance>();
         DestroyImmediate(go.GetComponent<MeshRenderer>());
@@ -72,14 +84,13 @@ public class PathMeshGenerator : EditorWindow
         DestroyImmediate(go.GetComponent<BoxCollider>());
 
         go.name = "Nav Mesh";
-        meshInstance.myVerts = meshVerts;
-        meshInstance.dimes = sizes;
-        meshInstance.intersects = open;
-
+        meshInstance.myVerts = meshPoints;
         meshInstance.recivedData = true;
+        meshInstance.updateVals();
+        meshInstance = null;
 
         Debug.Log("Done!");
-    }
+}
 
     void OnGUI(){
         GUILayout.Label("Mesh Bounds:", EditorStyles.boldLabel);

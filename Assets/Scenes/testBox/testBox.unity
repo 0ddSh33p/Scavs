@@ -1078,6 +1078,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f8c4eddaf607306408efbbfbd7b4bf57, type: 3}
   m_PrefabInstance: {fileID: 530596450}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &530596452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f8c4eddaf607306408efbbfbd7b4bf57, type: 3}
+  m_PrefabInstance: {fileID: 530596450}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &530596453
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530596452}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 17.03905, y: 89.45484, z: 17.89926}
+  m_Center: {x: 0.27046996, y: -34.340977, z: -0.17580478}
 --- !u!1 &543010184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,7 +1443,7 @@ GameObject:
   - component: {fileID: 859441745}
   - component: {fileID: 859441744}
   - component: {fileID: 859441743}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2009,6 +2027,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f8c4eddaf607306408efbbfbd7b4bf57, type: 3}
   m_PrefabInstance: {fileID: 1294802797}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1294802799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f8c4eddaf607306408efbbfbd7b4bf57, type: 3}
+  m_PrefabInstance: {fileID: 1294802797}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1294802800
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294802799}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 19.777023, y: 75.61184, z: 19.93301}
+  m_Center: {x: 0.0768351, y: -27.094748, z: -0.68806076}
 --- !u!1 &1316013590
 GameObject:
   m_ObjectHideFlags: 0
@@ -4004,7 +4040,7 @@ GameObject:
   - component: {fileID: 6461359056563457679}
   - component: {fileID: 701777443682121331}
   - component: {fileID: 7013843380862871515}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5062,6 +5098,7 @@ MonoBehaviour:
   intelegence: 28.3
   suspitiousness: 1.1
   pFinder: {fileID: 6276306497279319278}
+  myMesh: {fileID: 0}
 --- !u!23 &5545266479069556208
 MeshRenderer:
   m_ObjectHideFlags: 0

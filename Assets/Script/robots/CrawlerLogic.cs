@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CrawlerLogic : MonoBehaviour
 {
     [HideInInspector] public List<Vector3> myPath = new List<Vector3>();
+    private List<Vector3> ledPath = new List<Vector3>();
 
     [SerializeField] private float maxPointDistance, speed;
     [SerializeField] private bool hasPathing;
@@ -14,6 +16,7 @@ public class CrawlerLogic : MonoBehaviour
     [SerializeField] [Range(0f, 30f)] private float turnSmooth, intelegence;
     [SerializeField] [Range(0f, 10f)] private float suspitiousness;
     [SerializeField] private ViewChecker pFinder;
+    [SerializeField] private NavMeshInstance myMesh;
 
 
 
@@ -33,6 +36,7 @@ public class CrawlerLogic : MonoBehaviour
             myPath = GetComponent<PathEdit>().myPath;
             if(myPath.Count >= 2){
                 transform.position = myPath[0];
+                ledPath = myPath;
                 goodPath = true;
             } else {
                 Debug.LogError("No Path Created for " + gameObject.name);
@@ -68,12 +72,11 @@ public class CrawlerLogic : MonoBehaviour
                 lastSeen =  pPlayer.transform.position;
             }
 
-
-        }else if(hasPathing && goodPath){
-            if(onPoint(myPath[on])){
+        }else if(goodPath){
+            if(onPoint(ledPath[on])){
                 on++;
             }
-            if(on >= myPath.Count) on = 0;
+            if(on >= ledPath.Count) on = 0;
 
             if(pFinder.possiblePlayer != null){
                 pPlayer = pFinder.possiblePlayer.gameObject;
@@ -84,7 +87,8 @@ public class CrawlerLogic : MonoBehaviour
                 pPlayer = null;
             }
         } else {
-            //TODO, add a roam mode
+            //calculate path  myMesh
+            
         }
     }
 
@@ -100,8 +104,8 @@ public class CrawlerLogic : MonoBehaviour
                 rotate(pPlayer.transform.position);
             }
             
-        }else if(hasPathing && goodPath){
-            rotate(myPath[on]);
+        }else if(goodPath){
+            rotate(ledPath[on]);
         }
         moveForward();
     }
