@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 public class PathMeshGenerator : EditorWindow
 {
-    private float minDensity = 5, maxDensity = 2, levels = 4;
+    private float density = 2;
     private Vector3 CornerA = new Vector3(10,10,10), CornerB;
-    private List<MeshPoint>[] meshPoints;
+    private MeshPoint[,,] meshGrid;
 
     
     [MenuItem("Window/NavMesh")]
@@ -16,66 +16,41 @@ public class PathMeshGenerator : EditorWindow
     }
 
     private void buildMesh(){
-        meshPoints = new List<MeshPoint>[(int)levels+1];
-
-
-        for(int l = 0; l <= (int)levels; l++){
-            float d = ((float)l/((int)levels) * minDensity) + (Mathf.Abs((float)l/((int)levels) - 1) * maxDensity), numX, numY, numZ;
+        float numX, numY, numZ;
             
-            numX = (CornerA.x - CornerB.x)/d;
-            numY = (CornerA.y - CornerB.y)/d;
-            numZ = (CornerA.z - CornerB.z)/d;
+            numX = (CornerA.x - CornerB.x)/density;
+            numY = (CornerA.y - CornerB.y)/density;
+            numZ = (CornerA.z - CornerB.z)/density;
 
-            meshPoints[l] = new List<MeshPoint>();
+            
+            meshGrid = new MeshPoint[(int)(numX+1),(int)(numY+1),(int)(numZ+1)];
+            Debug.Log("Created mesh with " + ((int) ((numX+1)*(numY+1)*(numZ+1))) + " points");
+  
 
-            Debug.Log("Created mesh level " + l + " with " + ((int) ((numX+1)*(numY+1)*(numZ+1))) + " points");
-            int c = 0;
+            for(int x = 0; x <= (int)numX; x++){
+                for(int y = 0; y <= (int)numY; y++){
+                    for(int z = 0; z <= (int)numZ; z++){
 
-            for(int x = 0; x <= numX; x++){
-                for(int y = 0; y <= numY; y++){
-                    for(int z = 0; z <= numZ; z++){
-
-                        meshPoints[l].Add(new MeshPoint(l,new Vector3(x*d+CornerB.x, y*d+CornerB.y, z*d+CornerB.z),d));
-
-                        if(l==0){
-                            Collider[] temp = Physics.OverlapBox(meshPoints[l][^1].getGlobalPos(), new Vector3(d/2,d/2,d/2));
-                            if(temp.Length > 0){
-                                foreach(Collider col in temp){
-                                    if(col.gameObject.layer != 3){
-                                        meshPoints[l][^1].setOpen(-1);
-                                    } else {
-                                        meshPoints[l][^1].setOpen(1);
-                                    }
+                        
+                        meshGrid[x,y,z] = new MeshPoint(new Vector3(x*density+CornerB.x, y*density+CornerB.y, z*density+CornerB.z), new Vector3Int(x,y,z),density);
+                            
+                        Collider[] temp = Physics.OverlapBox(meshGrid[x,y,z].globalPos, new Vector3(density/2,density/2,density/2));
+                        if(temp.Length > 0){
+                            foreach(Collider col in temp){
+                                if(col.gameObject.layer != 3){
+                                    meshGrid[x,y,z].good = false;
+                                    break;
+                                }else {
+                                    meshGrid[x,y,z].good = true;
                                 }
-                                
+                            }   
                             } else {
-                                meshPoints[l][meshPoints[l].Count - 1].setOpen(-1);
+                                meshGrid[x,y,z].good = false;
                             }
-                        } else {
-                            for(int o = 0; o < meshPoints[0].Count; o++){
-                                if(Mathf.Abs(meshPoints[0][o].getGlobalPos().x - meshPoints[l][c].getGlobalPos().x) < d/2 &&
-                                Mathf.Abs(meshPoints[0][o].getGlobalPos().y - meshPoints[l][c].getGlobalPos().y) < d/2 &&
-                                Mathf.Abs(meshPoints[0][o].getGlobalPos().z - meshPoints[l][c].getGlobalPos().z) < d/2){
-                                    meshPoints[l][c].setOpen(meshPoints[l][c].getOpen() + 1);
-                                }
-                            }
-                            if(meshPoints[l][c].getOpen() >= d/meshPoints[0][0].getDensity() -1.5f){
-                                meshPoints[l][c].setOpen(1);
-                            } else {
-                                meshPoints[l][c].setOpen(-1);
-                            }
-                        }
-                        c++;
                     }       
                 }
-            }
-            //clean layer
-            for(int i = meshPoints[l].Count -1; i >= 0; i--){
-                if(meshPoints[l][i].getOpen() < 0){
-                    meshPoints[l].RemoveAt(i);
-                }
-            }            
-        }
+            }          
+        
         Debug.Log("Suceeded in creating a mesh");
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         NavMeshInstance meshInstance = go.AddComponent<NavMeshInstance>();
@@ -84,9 +59,11 @@ public class PathMeshGenerator : EditorWindow
         DestroyImmediate(go.GetComponent<BoxCollider>());
 
         go.name = "Nav Mesh";
-        meshInstance.myVerts = meshPoints;
-        meshInstance.recivedData = true;
-        meshInstance.updateVals();
+
+        meshInstance.dims = new Vector3Int((int)numX, (int)numY, (int)numZ);
+        meshInstance.origin = CornerB;
+        meshInstance.end = CornerA;
+        meshInstance.mesh = meshGrid;
         meshInstance = null;
 
         Debug.Log("Done!");
@@ -110,19 +87,10 @@ public class PathMeshGenerator : EditorWindow
 
 
         GUILayout.Label("\n\nMesh Settings:", EditorStyles.boldLabel);
-        GUILayout.Label("\nMesh Levels " + ((int)levels + 1));
-        levels = GUILayout.HorizontalSlider(levels,1f,100f);
-        GUILayout.Label("\nSubdivisions Per Unit Minimum to Maximum");
 
-        EditorGUILayout.BeginHorizontal();
-            GUILayout.Label((int)minDensity + "");
-            GUILayout.Label(maxDensity + "");
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.BeginHorizontal();
-            minDensity = GUILayout.HorizontalSlider(minDensity,1f,200f);
-            maxDensity = GUILayout.HorizontalSlider(maxDensity,0.01f,5f);
-        EditorGUILayout.EndHorizontal();
+        GUILayout.Label("\nVoxel size");
+            GUILayout.Label(density + "");
+            density = GUILayout.HorizontalSlider(density,0f,200f);
 
 
         GUILayout.Label("\n\nBuild:", EditorStyles.boldLabel);

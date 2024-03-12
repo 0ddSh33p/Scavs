@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CrawlerLogic : MonoBehaviour
 {
+    public Vector3 toPos;
     [HideInInspector] public List<Vector3> myPath = new List<Vector3>();
     private List<Vector3> ledPath = new List<Vector3>();
 
@@ -17,6 +17,7 @@ public class CrawlerLogic : MonoBehaviour
     [SerializeField] [Range(0f, 10f)] private float suspitiousness;
     [SerializeField] private ViewChecker pFinder;
     [SerializeField] private NavMeshInstance myMesh;
+
 
 
 
@@ -87,9 +88,75 @@ public class CrawlerLogic : MonoBehaviour
                 pPlayer = null;
             }
         } else {
-            //calculate path  myMesh
-            
+            findPath(transform.position, toPos);
         }
+    }
+
+    
+    void findPath(Vector3 startPos, Vector3 endPos){
+
+        MeshPoint onPoint = myMesh.findPoint(startPos);
+        MeshPoint toPoint = myMesh.findPoint(endPos);
+        List<MeshPoint> openSet = new List<MeshPoint>();
+        HashSet<MeshPoint> closedSet = new HashSet<MeshPoint>();
+
+        openSet.Add(onPoint);
+
+        while(openSet.Count > 0){
+            MeshPoint currentPoint = openSet[0];
+
+            for(int i = 1; i < openSet.Count; i++){
+                if(openSet[i].fCost < currentPoint.fCost || (openSet[i].fCost == currentPoint.fCost && openSet[i].hCost < currentPoint.hCost)){
+                    currentPoint = openSet[i];
+                }
+            }
+
+            openSet.Remove(currentPoint);
+            closedSet.Add(currentPoint);
+
+            if (currentPoint == toPoint){
+                retracePath(onPoint,toPoint);
+                return;
+            }
+
+            foreach(MeshPoint neighbor in myMesh.getNeighbors(currentPoint)){
+                if(!neighbor.good || closedSet.Contains(neighbor)){
+                    continue;
+                }
+                
+                int newCostToNeighbor = currentPoint.gCost + getDistance(currentPoint, neighbor);
+                if (newCostToNeighbor < neighbor.gCost || !openSet.Contains(neighbor)){
+                    neighbor.gCost = newCostToNeighbor;
+                    neighbor.hCost = getDistance(neighbor, toPoint);
+                    neighbor.parent = currentPoint;
+
+                    if(!openSet.Contains(neighbor)){
+                        openSet.Add(neighbor);
+                    }
+                }
+            }
+        }
+    }
+
+    void retracePath(MeshPoint start, MeshPoint end){
+        MeshPoint onPoint = end;
+        myMesh.path = null;
+        while(onPoint != start){
+            ledPath.Add(onPoint.globalPos);
+            myMesh.path.Add(onPoint);
+            onPoint = end.parent;
+        }
+        ledPath.Reverse();
+        goodPath = true;
+    }
+
+    int getDistance(MeshPoint pointA, MeshPoint pointB){
+        int dstX = Mathf.Abs(pointA.localPos.x - pointB.localPos.x);
+        int dstY = Mathf.Abs(pointA.localPos.y - pointB.localPos.y);
+        if(dstX>dstY){
+            return 14* dstY+10*(dstX-dstY);
+        } 
+        return 14* dstX+10*(dstY-dstX);
     }
 
     void FixedUpdate(){
