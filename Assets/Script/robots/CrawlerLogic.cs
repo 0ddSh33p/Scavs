@@ -23,7 +23,7 @@ public class CrawlerLogic : MonoBehaviour
 
     private Rigidbody rb;
     private int on = 1, pause = 1;
-    private bool goodPath = false, seenPlayer, waiting;
+    private bool goodPath, seenPlayer, waiting, findingPath;
     private GameObject pPlayer;
     private Vector3 lastSeen;
     private float lastY;
@@ -88,25 +88,33 @@ public class CrawlerLogic : MonoBehaviour
                 pPlayer = null;
             }
         } else {
-            findPath(transform.position, toPos);
+            if(!findingPath){
+                findPath(transform.position, toPos);
+            }
         }
     }
 
     
     void findPath(Vector3 startPos, Vector3 endPos){
-
+        findingPath = true;
+        Debug.Log("finding path");
         MeshPoint onPoint = myMesh.findPoint(startPos);
         MeshPoint toPoint = myMesh.findPoint(endPos);
+
+        Debug.Log(onPoint.globalPos);
+        Debug.Log(toPoint.globalPos);
+
+
         List<MeshPoint> openSet = new List<MeshPoint>();
         HashSet<MeshPoint> closedSet = new HashSet<MeshPoint>();
 
         openSet.Add(onPoint);
-
         while(openSet.Count > 0){
+            Debug.Log("open set has " +openSet.Count+" points");
             MeshPoint currentPoint = openSet[0];
 
             for(int i = 1; i < openSet.Count; i++){
-                if(openSet[i].fCost < currentPoint.fCost || (openSet[i].fCost == currentPoint.fCost && openSet[i].hCost < currentPoint.hCost)){
+                if(openSet[i].getF() < currentPoint.getF() || (openSet[i].getF() == currentPoint.getF() && openSet[i].hCost < currentPoint.hCost)){
                     currentPoint = openSet[i];
                 }
             }
@@ -115,6 +123,7 @@ public class CrawlerLogic : MonoBehaviour
             closedSet.Add(currentPoint);
 
             if (currentPoint == toPoint){
+                Debug.Log("pathfound for " + gameObject.name);
                 retracePath(onPoint,toPoint);
                 return;
             }
@@ -139,15 +148,18 @@ public class CrawlerLogic : MonoBehaviour
     }
 
     void retracePath(MeshPoint start, MeshPoint end){
+        Debug.Log("retracing from " + end.parent);
         MeshPoint onPoint = end;
-        myMesh.path = null;
+        myMesh.path = new List<MeshPoint>();
         while(onPoint != start){
             ledPath.Add(onPoint.globalPos);
             myMesh.path.Add(onPoint);
-            onPoint = end.parent;
+            onPoint = onPoint.parent;
+            
         }
         ledPath.Reverse();
         goodPath = true;
+        findingPath = false;
     }
 
     int getDistance(MeshPoint pointA, MeshPoint pointB){

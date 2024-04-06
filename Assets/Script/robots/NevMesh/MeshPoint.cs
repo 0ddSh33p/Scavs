@@ -1,26 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-
+[Serializable]
 public class MeshPoint{
-    public Vector3 globalPos{get;}
-    public Vector3Int localPos{get;}
+    public Vector3 globalPos;
+    public Vector3Int localPos;
 
-    public float density{get;}
+    public float density;
     public int gCost;
     public int hCost;
-    public int fCost{get{return gCost+hCost;}}
     public bool good;
-    public MeshPoint parent;
-    public MeshPoint[] neighbors{get;}
+    [NonSerialized] public MeshPoint parent;
+    [NonSerialized] public MeshPoint[] neighbors;
 
     public MeshPoint(Vector3 gPos, Vector3Int lpos, float d){
         globalPos = gPos;
         localPos = lpos;
         density = d;
 
-        good = true;
+        good = false;
+    }
+
+    public int getF(){
+        return hCost + gCost;
     }
 
 }

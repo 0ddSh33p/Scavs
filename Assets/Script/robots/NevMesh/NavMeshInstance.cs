@@ -1,27 +1,30 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-[ExecuteInEditMode]
+[ExecuteAlways][Serializable]
 public class NavMeshInstance : MonoBehaviour
 {
-    private bool recivedData;
-    public MeshPoint[,,] mesh { get{return mesh;} set{ mesh = value; recivedData = true;} }
+    public bool recivedData {private get; set;}
+    public MeshPoint[,,] mesh;
+    public List<MeshPoint> meshData, path;
     public Vector3Int dims;
     public Vector3 origin, end;
+    
 
 
     public MeshPoint findPoint(Vector3 pos){
+        MeshPoint nearest = mesh[0,0,0];
+        float dist = 1000f;
         foreach(MeshPoint m in mesh){
-            if(Mathf.Abs(m.globalPos.x - pos.x) < m.density/2&&
-            Mathf.Abs(m.globalPos.y - pos.y) < m.density/2&&
-            Mathf.Abs(m.globalPos.z - pos.z) < m.density/2){
-                return m;
+            if((pos.x-m.globalPos.x)*(pos.x-m.globalPos.x) +
+            (pos.y-m.globalPos.y)*(pos.y-m.globalPos.y) +
+            (pos.z-m.globalPos.z)*(pos.z-m.globalPos.z) < dist){
+                nearest = m;
             }
         }
-        Debug.LogError("AI not intersecting a Nav Mesh");
-        return null;
+        return nearest;
     }
 
     public List<MeshPoint> getNeighbors(MeshPoint me){
@@ -47,10 +50,30 @@ public class NavMeshInstance : MonoBehaviour
         return neighbors;
     }
 
-    public List<MeshPoint> path;
+    public void Update()
+    {
+        if(recivedData){ 
+            Debug.Log("packing data");
+            meshData = new List<MeshPoint>();
+            foreach(MeshPoint p in mesh){
+                meshData.Add(p);
+            }
+            recivedData = false;
+            Debug.Log("Success");
+        }
+    }
+    void Start(){
+        if(meshData != null){
+            Debug.Log("unpacking data");
+            mesh = new MeshPoint[dims.x+1,dims.y+1,dims.z+1];
+            foreach(MeshPoint p in meshData){
+                mesh[p.localPos.x,p.localPos.y,p.localPos.z] = p;
+            }
+            Debug.Log("Success");
+        } 
+    }
     void OnDrawGizmosSelected(){
         Gizmos.color = new Color(0.9f,0.25f,1.0f,0.30f);
-        if(recivedData){
             foreach(MeshPoint p in mesh){
                 if(p.good){
                     if(path != null && path.Contains(p)){
@@ -59,6 +82,5 @@ public class NavMeshInstance : MonoBehaviour
                     Gizmos.DrawCube(p.globalPos, new Vector3(p.density,p.density,p.density));   
                 }
             }
-        }
     }
 }
