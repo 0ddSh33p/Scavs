@@ -8,7 +8,7 @@ public class NavMeshInstance : MonoBehaviour
 {
     public bool recivedData {private get; set;}
     public MeshPoint[,,] mesh;
-    public List<MeshPoint> meshData, path;
+    public List<MeshPoint> path;
     public Vector3Int dims;
     public Vector3 origin, end;
     
@@ -50,28 +50,6 @@ public class NavMeshInstance : MonoBehaviour
         return neighbors;
     }
 
-    public void Update()
-    {
-        if(recivedData){ 
-            Debug.Log("packing data");
-            meshData = new List<MeshPoint>();
-            foreach(MeshPoint p in mesh){
-                meshData.Add(p);
-            }
-            recivedData = false;
-            Debug.Log("Success");
-        }
-    }
-    void Start(){
-        if(meshData != null){
-            Debug.Log("unpacking data");
-            mesh = new MeshPoint[dims.x+1,dims.y+1,dims.z+1];
-            foreach(MeshPoint p in meshData){
-                mesh[p.localPos.x,p.localPos.y,p.localPos.z] = p;
-            }
-            Debug.Log("Success");
-        } 
-    }
     void OnDrawGizmosSelected(){
         Gizmos.color = new Color(0.9f,0.25f,1.0f,0.30f);
             foreach(MeshPoint p in mesh){

@@ -1,26 +1,23 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class MeshGeneratorV2 : MonoBehaviour
 {
     Mesh mesh;
-    public AnimationCurve heightCurve;
+    [SerializeField] private AnimationCurve heightCurve;
     private Vector3[] vertices;
     private int[] triangles;
     private Vector2[] uvs;
 
-    public int xSize;
-    public int zSize;
-    public int height;
+    [SerializeField] private int xSize, zSize, height, passes;
 
+    [SerializeField] private float scale, bDetail, sDetail, pointiness;
 
-    public float scale; 
-    public int passes;
-    public float bDetail, sDetail;
-
-
-    public Vector2 seed;
+    [HideInInspector] public Vector2 seed;
     public seedGen mySeed;
+
+    [SerializeField] private ChunkMesh myMesh;
 
 
 
@@ -51,8 +48,14 @@ public class MeshGeneratorV2 : MonoBehaviour
             for (int x = 0; x <= xSize; x++)
             {
                 // Assign and set height of each vertices
-                float noiseHeight = GenerateNoiseHeight(z, x);
-                vertices[i] = new Vector3(x, noiseHeight, z);
+                float noiseHeightM = GenerateNoiseHeight(
+                 (int) (Mathf.Abs(z + pointiness)-Mathf.Abs(z + pointiness)),x);
+                float noiseHeightN = GenerateNoiseHeight(
+                 z,(int) (Mathf.Abs(x + pointiness)-Mathf.Abs(x + pointiness)));
+
+                float rawNoise = GenerateNoiseHeight(z,x);
+
+                vertices[i] = new Vector3(x, rawNoise*(noiseHeightN/noiseHeightM+1), z);
                 uvs[i] = new Vector2(x/(float)xSize, z/(float)zSize);
                 i++;
             }
@@ -72,7 +75,7 @@ public class MeshGeneratorV2 : MonoBehaviour
 
             // Create perlinValues  
             float perlinValue = Mathf.PerlinNoise(mapZ + transform.position.z/pos, mapX + transform.position.x/pos);
-            noiseHeight += heightCurve.Evaluate(perlinValue) * height / (1.1f - (pos/bDetail)) / passes;
+            noiseHeight += heightCurve.Evaluate(perlinValue) * height * (1.00001f - (pos/bDetail)) / passes;
         }
         return noiseHeight;
     }
@@ -116,5 +119,8 @@ public class MeshGeneratorV2 : MonoBehaviour
         GetComponent<MeshCollider>().sharedMesh = mesh;
 
         gameObject.transform.localScale = new Vector3(scale, scale, scale);
+        myMesh.CornerB = gameObject.transform.position;
+        myMesh.CornerA = gameObject.transform.position + (new Vector3(xSize,height*1.3f,zSize)*scale);
+        myMesh.buildMesh();
     }
 }
