@@ -49,41 +49,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6334d831036af4a9b88f6d1bc73fd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heightCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   xSize: 100
   zSize: 100
-  height: 15
-  passes: 3
+  height: 14
+  passes: 2
   scale: 1
-  bDetail: 50
-  sDetail: 15
-  pointiness: 0.5
+  bDetail: 121
+  sDetail: 49.7
+  rDetail: 390.57
+  randomPercent: 500
   seed: {x: 0, y: 0}
-  mySeed: {fileID: 0}
   myMesh: {fileID: 2271240915649158622}
+  myAdder: {fileID: 1378650938293127574}
 --- !u!114 &2271240915649158622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,3 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5abd409a31b0804fbda9d049517744b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chunk: {fileID: 2271240915649158612}
+  minSpawnRadius: 25
+  maxSpawnRadius: 150
+  sides: []
+  center: {x: 0, y: 0, z: 0}
+  dims: {x: 0, y: 0, z: 0}

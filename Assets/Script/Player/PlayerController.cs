@@ -1,5 +1,4 @@
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
@@ -25,7 +24,9 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-
+    void Start(){
+        GameObject.FindGameObjectWithTag("WorldSeed").GetComponent<seedGen>().players.Add(gameObject);
+    }
 
 
     void FixedUpdate()
