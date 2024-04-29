@@ -699,8 +699,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 188344060}
     - target: {fileID: 2271240915649158618, guid: af8b403feb90637468d2323d998530b0, type: 3}
+      propertyPath: eDetail
+      value: 299.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271240915649158618, guid: af8b403feb90637468d2323d998530b0, type: 3}
+      propertyPath: rDetail
+      value: 112.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271240915649158618, guid: af8b403feb90637468d2323d998530b0, type: 3}
       propertyPath: pointiness
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271240915649158618, guid: af8b403feb90637468d2323d998530b0, type: 3}
+      propertyPath: randomPercent
+      value: 396.1
       objectReference: {fileID: 0}
     - target: {fileID: 2271240915649158618, guid: af8b403feb90637468d2323d998530b0, type: 3}
       propertyPath: heightCurve.m_Curve.Array.size

@@ -11,7 +11,7 @@ public class MeshGeneratorV2 : MonoBehaviour
 
     [SerializeField] private int xSize, zSize, height, passes;
 
-    [SerializeField] private float scale, bDetail, sDetail, rDetail, randomPercent;
+    [SerializeField] private float scale, bDetail, sDetail, rDetail, eDetail, randomPercent;
 
     [HideInInspector] public Vector2 seed;
     private seedGen mySeed;
@@ -55,8 +55,9 @@ public class MeshGeneratorV2 : MonoBehaviour
             for (int x = 0; x <= xSize; x++)
             {
                 // Assign and set height of each vertices
-                float rand = Mathf.PerlinNoise((x+seed.x) /rDetail,(z+seed.y) /rDetail) * (randomPercent/10)*2 -1;
-                float sinVer = (Mathf.Sin(i + rand) + 1) /2;
+                float rand = Mathf.PerlinNoise((x+seed.x) /rDetail,(z+seed.y) /rDetail) * (randomPercent/10);
+                float sinVer = (Mathf.Sin(i/eDetail + rand) + 1) /2;
+                sinVer *= sinVer;
                 float y = (sinVer+GenerateNoiseHeight(z,x))/2;
 
                 colors[i] = new Color(y,y,y);
