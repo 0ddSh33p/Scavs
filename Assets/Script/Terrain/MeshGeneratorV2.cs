@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -9,17 +10,12 @@ public class MeshGeneratorV2 : MonoBehaviour
     private Vector2[] uvs;
     private Color[] colors;
 
-    [SerializeField] private int xSize, zSize, height, passes;
+    [SerializeField] private int xSize, zSize, height;
 
-    [SerializeField] private float scale, bDetail, sDetail, rDetail, eDetail, randomPercent;
+    [SerializeField] private float bDetail, rDetail, eDetail, randomPercent;
 
-    [HideInInspector] public Vector2 seed;
+    public Vector2 seed;
     private seedGen mySeed;
-
-    [SerializeField] private ChunkMesh myMesh;
-    [SerializeField] private ProceduralAddition myAdder;
-
-
 
 
     void Start()
@@ -28,14 +24,11 @@ public class MeshGeneratorV2 : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
 
         mySeed = GameObject.FindGameObjectWithTag("WorldSeed").GetComponent<seedGen>();
-
-        seed = mySeed.seed;
-
-        myAdder.center = gameObject.transform.position + (new Vector3(xSize * scale,0,zSize * scale) / 2);
-        myAdder.dims = new Vector3(xSize * scale,0,zSize * scale);
+        if(seed.x == 0&&seed.y==0){
+            seed = mySeed.seed;
+        }
         CreateNewMap();         
     }
-
     public void CreateNewMap()
     {
         CreateMeshShape();
@@ -55,12 +48,13 @@ public class MeshGeneratorV2 : MonoBehaviour
             for (int x = 0; x <= xSize; x++)
             {
                 // Assign and set height of each vertices
-                float rand = Mathf.PerlinNoise((x+seed.x) /rDetail,(z+seed.y) /rDetail) * (randomPercent/10);
+                float rand = Mathf.PerlinNoise((x+transform.position.x+seed.x) /rDetail,
+                                               (z+transform.position.z+seed.y) /rDetail)        * (randomPercent/10);
                 float sinVer = (Mathf.Sin(i/eDetail + rand) + 1) /2;
-                sinVer *= sinVer;
-                float y = (sinVer+GenerateNoiseHeight(z,x))/2;
 
-                colors[i] = new Color(y,y,y);
+                float y = (sinVer);//+GenerateNoiseHeight(z,x))/2;
+
+                colors[i] = new Color(y,y*0.6f,y*0.65f);
                 vertices[i] = new Vector3(x, y*height, z);
                 uvs[i] = new Vector2(x/(float)xSize, z/(float)zSize);
                 i++;
@@ -74,16 +68,14 @@ public class MeshGeneratorV2 : MonoBehaviour
         float noiseHeight = 0;
 
         // loop over passes
-        for (float pos = sDetail; pos < bDetail; pos += (bDetail - sDetail)/passes)
-        {
-            float mapZ = (z/pos) + seed.x;
-            float mapX = (x/pos) + seed.y;
+        float mapZ = ((z+ transform.position.z)/bDetail) + seed.y;
+        float mapX = ((x+ transform.position.x)/bDetail) + seed.x;
 
-            // Create perlinValues  
-            float perlinValue = Mathf.PerlinNoise(mapZ + transform.position.z/pos, mapX + transform.position.x/pos);
-            noiseHeight += perlinValue * (1f - (pos/bDetail));
-        }
-        return noiseHeight / passes;
+        // Create perlinValues  
+        float perlinValue = Mathf.PerlinNoise(mapX , mapZ);
+        noiseHeight += perlinValue;
+
+        return noiseHeight;
     }
 
     private void CreateTriangles() 
@@ -124,10 +116,5 @@ public class MeshGeneratorV2 : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
         GetComponent<MeshCollider>().sharedMesh = mesh;
-
-        gameObject.transform.localScale = new Vector3(scale, scale, scale);
-        myMesh.CornerB = gameObject.transform.position;
-        myMesh.CornerA = gameObject.transform.position + (new Vector3(xSize,height,zSize)*scale);
-        myMesh.buildMesh();
     }
 }

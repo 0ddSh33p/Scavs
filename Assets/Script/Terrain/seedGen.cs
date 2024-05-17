@@ -9,6 +9,6 @@ public class seedGen : MonoBehaviour
     
     void Awake()
     {
-        seed = new Vector2(Random.Range(-2000,2000),Random.Range(-2000, 2000));
+        seed = new Vector2(Random.Range(-99999,99999),Random.Range(-99999, 99999));
     }
 }
