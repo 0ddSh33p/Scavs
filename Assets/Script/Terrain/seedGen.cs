@@ -7,9 +7,14 @@ public class seedGen : MonoBehaviour
     public Vector2Int size;
     public List<GameObject> players;
     public float height, perlinPercent, macroHeight;
-    [SerializeField] private int renderDistance;
 
+    [SerializeField] private int renderDistance;
+    [SerializeField] private float POIsPer100Units, maxTilt;
     [SerializeField] private GameObject Chunk;
+    [SerializeField] private List<GameObject> structures;
+
+    [SerializeField] private LayerMask layerMask;
+
     [HideInInspector] public List<Vector2Int> meshLocations = new List<Vector2Int>();
 
     private Vector2 posOfPlayer;
@@ -43,6 +48,16 @@ public class seedGen : MonoBehaviour
                 }
             }
        
+        }
+    }
+
+    public void addPOI(Vector3 loc){
+        if(Random.Range(0f,1f) < POIsPer100Units){
+            loc += new Vector3(Random.Range(-50,50), loc.y+height+macroHeight+1 ,Random.Range(-50,50));
+            RaycastHit hit;
+            if(Physics.Raycast(loc, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask)){
+                Instantiate(structures[Random.Range(0,structures.Count)], hit.point, Quaternion.Euler(Random.Range(-maxTilt,maxTilt), Random.Range(0,360), Random.Range(-maxTilt,maxTilt)));
+            }
         }
     }
 }
