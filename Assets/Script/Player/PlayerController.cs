@@ -19,9 +19,16 @@ public class PlayerController : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         gear = 2;
 
-        if( GameObject.FindWithTag("PrimarySpawn") != null){
-            transform.position = GameObject.FindWithTag("PrimarySpawn").transform.position;
+        GameObject tempObj = GameObject.FindWithTag("PrimarySpawn");
+        if( tempObj != null){
+            transform.position = tempObj.transform.position;
         }
+
+        tempObj = GameObject.FindWithTag("WorldSeed");
+        if(tempObj.GetComponent<seedGen>() != null){
+            tempObj.GetComponent<seedGen>(). players.Add(gameObject);
+        }
+
     }
 
     void Start(){

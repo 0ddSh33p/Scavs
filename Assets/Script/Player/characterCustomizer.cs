@@ -15,7 +15,6 @@ public class characterCustomizer : MonoBehaviour
     [SerializeField] private MeshFilter myBaseMesh;
     [SerializeField] private TMP_Dropdown physique;
     [SerializeField] private Material skinColor;
-    [SerializeField] private ColorPickerTriangle skincol;
 
 
     void Awake(){
@@ -36,11 +35,6 @@ public class characterCustomizer : MonoBehaviour
             if(Input.GetMouseButtonUp(0)){
                 rb.angularVelocity = new Vector3(0, -Input.GetAxis("Mouse X") * speedD, 0);
             }
-        } else {
-            if(Input.GetMouseButton(0)){
-                skinColor.color = skincol.TheColor;
-            }
-        }
-        
+        } 
     }
 }
