@@ -68,6 +68,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: c3f22c9d5b38bc542a9a445c0d69b465, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_601f6833719e4a658cd5327cb9152adf_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 174cfb5e2cbcb5d47a42682cdbc742da, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -113,6 +117,7 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _Tiling: 300
+    - _Tiling2: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _smooth: 0

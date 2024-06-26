@@ -1,77 +1,90 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshFilter), typeof(MeshCollider))]
 public class MeshGeneratorV2 : MonoBehaviour
 {
-    Mesh mesh;
+    private Mesh mesh;
     private Vector3[] vertices;
     private int[] triangles;
     private Vector2[] uvs;
     private seedGen mySeed;
     [HideInInspector] public Vector2 perlinScale;
 
+    private MeshFilter meshFilter;
+    private MeshCollider meshCollider;
 
     void Start()
     {
         mesh = new Mesh();
-
+        meshFilter = GetComponent<MeshFilter>();
+        meshCollider = GetComponent<MeshCollider>();
         mySeed = GameObject.FindGameObjectWithTag("WorldSeed").GetComponent<seedGen>();
-        
 
-        CreateNewMap();         
+        CreateNewMap();
     }
 
     public void CreateNewMap()
     {
-        perlinScale = mySeed.perlinScale/100;
+        perlinScale = mySeed.perlinScale / 100;
         CreateMeshShape();
         CreateTriangles();
         UpdateMesh();
     }
 
-    private void CreateMeshShape ()
+    private void CreateMeshShape()
     {
-        float perlinAtPos, macroPerlinPos;
-        vertices = new Vector3[(mySeed.size.x + 1) * (mySeed.size.y + 1)];
-        uvs = new Vector2[(mySeed.size.x + 1) * (mySeed.size.y + 1)];
-        for (int i = 0, z = 0; z <= mySeed.size.y; z++)
+        int width = mySeed.size.x;
+        int height = mySeed.size.y;
+        int vertexCount = (width + 1) * (height + 1);
+
+        vertices = new Vector3[vertexCount];
+        uvs = new Vector2[vertexCount];
+
+        float posX = transform.position.x;
+        float posZ = transform.position.z;
+        float seedX = mySeed.seed.x;
+        float seedY = mySeed.seed.y;
+        float perlinPercent = mySeed.perlinPercent;
+        float heightScale = mySeed.height;
+        float macroHeight = mySeed.macroHeight;
+        Vector2 trueScale = mySeed.trueScale;
+        Vector2 macroScale = mySeed.macroScale;
+
+        for (int i = 0, z = 0; z <= height; z++)
         {
-            for (int x = 0; x <= mySeed.size.x; x++)
+            for (int x = 0; x <= width; x++, i++)
             {
-                perlinAtPos = Mathf.PerlinNoise((x+transform.position.x+mySeed.seed.x)*perlinScale.x /mySeed.trueScale.x, 
-                                                (z+transform.position.z+mySeed.seed.y)*perlinScale.y /mySeed.trueScale.y);
+                float perlinAtPos = Mathf.PerlinNoise((x + posX + seedX) * perlinScale.x / trueScale.x,
+                                                      (z + posZ + seedY) * perlinScale.y / trueScale.y);
+                float macroPerlinPos = Mathf.PerlinNoise((x + posX + (seedX / 2)) / macroScale.x,
+                                                         (z + posZ + (seedY / 2)) / macroScale.y);
 
-                macroPerlinPos = Mathf.PerlinNoise((x+transform.position.x+ (mySeed.seed.x/2))/mySeed.macroScale.x,
-                                                   (z+transform.position.z+(mySeed.seed.y/2))/mySeed.macroScale.y);
-
-                vertices[i] = new Vector3(x, (Mathf.Sin(perlinAtPos * mySeed.perlinPercent)*mySeed.height) + (macroPerlinPos*mySeed.macroHeight), z);
-                uvs[i] = new Vector2(x/(float)mySeed.size.x, z/(float)mySeed.size.y);
-                i++;
+                vertices[i] = new Vector3(x, Mathf.Sin(perlinAtPos * perlinPercent) * heightScale + macroPerlinPos * macroHeight, z);
+                uvs[i] = new Vector2(x / (float)width, z / (float)height);
             }
         }
     }
-    private void CreateTriangles() 
+
+    private void CreateTriangles()
     {
-        // Need 6 vertices to create a square (2 triangles)
-        triangles = new int[mySeed.size.x * mySeed.size.y * 6];
+        int width = mySeed.size.x;
+        int height = mySeed.size.y;
+        int triangleCount = width * height * 6;
+
+        triangles = new int[triangleCount];
         int vert = 0;
         int tris = 0;
 
-        // loop through rows
-        for (int z = 0; z < mySeed.size.y; z++)
+        for (int z = 0; z < height; z++)
         {
-            // fill all columns in row
-            for (int x = 0; x < mySeed.size.x; x++)
+            for (int x = 0; x < width; x++, vert++, tris += 6)
             {
-                triangles[tris + 0] = vert + 0;
-                triangles[tris + 1] = vert + mySeed.size.x + 1;
+                triangles[tris + 0] = vert;
+                triangles[tris + 1] = vert + width + 1;
                 triangles[tris + 2] = vert + 1;
                 triangles[tris + 3] = vert + 1;
-                triangles[tris + 4] = vert + mySeed.size.x + 1;
-                triangles[tris + 5] = vert + mySeed.size.x + 2;
-
-                vert++;
-                tris += 6;
+                triangles[tris + 4] = vert + width + 1;
+                triangles[tris + 5] = vert + width + 2;
             }
             vert++;
         }
@@ -83,17 +96,17 @@ public class MeshGeneratorV2 : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
+
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
 
-        mesh.Optimize();
-        
-        Vector2Int myloc = new Vector2Int(((int)(transform.position.x + mySeed.transform.position.x))/mySeed.size.x,
-                                          ((int)(transform.position.z + mySeed.transform.position.z))/mySeed.size.y);
-        mySeed.meshLocations.Add(myloc);
+        meshFilter.sharedMesh = mesh;
+        meshCollider.sharedMesh = mesh;
+
+        Vector2Int myloc = new Vector2Int((int)(transform.position.x + mySeed.transform.position.x) / mySeed.size.x,
+                                          (int)(transform.position.z + mySeed.transform.position.z) / mySeed.size.y);
+        mySeed.PlaceVector2Int(myloc);
         mySeed.addPOI(transform.position);
-        GetComponent<MeshCollider>().sharedMesh = mesh;
-        GetComponent<MeshFilter>().sharedMesh = mesh;
     }
 }
