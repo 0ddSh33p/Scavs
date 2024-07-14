@@ -107,6 +107,6 @@ public class MeshGeneratorV2 : MonoBehaviour
         Vector2Int myloc = new Vector2Int((int)(transform.position.x + mySeed.transform.position.x) / mySeed.size.x,
                                           (int)(transform.position.z + mySeed.transform.position.z) / mySeed.size.y);
         mySeed.PlaceVector2Int(myloc);
-        mySeed.addPOI(transform.position);
+        mySeed.addPOIs(transform.position);
     }
 }

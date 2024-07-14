@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Snad
   m_Shader: {fileID: -6465566751694194690, guid: 00463ce203fb25e448a8d0031a516004, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -17,6 +19,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -72,7 +75,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2458da3dca3f4b4458efc628be6cf63b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_64829bde21234843a8a615a4a9ed4e85_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2458da3dca3f4b4458efc628be6cf63b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2DLOD_70605333ab94498189dd606b6d7e6e63_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 11db3c59dfc48ad4492d2f07c3e65d45, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_70605333ab94498189dd606b6d7e6e63_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 11db3c59dfc48ad4492d2f07c3e65d45, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -80,7 +91,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2458da3dca3f4b4458efc628be6cf63b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_8300c91419f24b2aac288f303727a37f_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2458da3dca3f4b4458efc628be6cf63b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2DLOD_92fa9f39292f4070986642d1b449f83c_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 11db3c59dfc48ad4492d2f07c3e65d45, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_92fa9f39292f4070986642d1b449f83c_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 11db3c59dfc48ad4492d2f07c3e65d45, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -92,7 +111,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: c3f22c9d5b38bc542a9a445c0d69b465, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_189688a657a04316b609428a71f0fee3_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: c3f22c9d5b38bc542a9a445c0d69b465, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_601f6833719e4a658cd5327cb9152adf_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 174cfb5e2cbcb5d47a42682cdbc742da, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_601f6833719e4a658cd5327cb9152adf_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 174cfb5e2cbcb5d47a42682cdbc742da, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -100,7 +127,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2458da3dca3f4b4458efc628be6cf63b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_71afdfcca0914d1abe46346fc2ddb7b9_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2458da3dca3f4b4458efc628be6cf63b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_e1a128eac1594f5aaa7d047594460829_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 11db3c59dfc48ad4492d2f07c3e65d45, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_e1a128eac1594f5aaa7d047594460829_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 11db3c59dfc48ad4492d2f07c3e65d45, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -171,4 +206,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 7

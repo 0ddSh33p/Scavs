@@ -107,7 +107,7 @@ public class seedGen : MonoBehaviour
         field = newArray;
     }
 
-    public void addPOI(Vector3 loc)
+    public void addPOIs(Vector3 loc)
     {
         if (Random.Range(0f, 1f) < POIsPer100Units)
         {
