@@ -151,6 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dd897499880f64494645522982183d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fogAsset: {fileID: 0}
+  fogColor: {r: 0.5801887, g: 0.96152997, b: 1, a: 0}
+  tintColor: {r: 0.2924528, g: 0.18623175, b: 0.18623175, a: 0}
+  lightStrength: 1
 --- !u!4 &54099383
 Transform:
   m_ObjectHideFlags: 0

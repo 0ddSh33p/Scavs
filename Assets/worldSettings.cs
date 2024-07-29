@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class worldSettings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Material fogAsset;
+    [SerializeField] private Color fogColor, tintColor;
+    [SerializeField] private float lightStrength;
+    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Start(){
+        fogAsset.SetFloat("_Main_Light_Intensity", lightStrength);
+        fogAsset.SetColor("_Colour", fogColor);
+        fogAsset.SetColor("_Tint", tintColor);
     }
 }
