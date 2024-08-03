@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Volumetric Fog (High Quality)
+  m_Name: TestBoxFog
   m_Shader: {fileID: -6465566751694194690, guid: b41208ea9fa867440be4a9ec08db6e2a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -144,7 +144,7 @@ Material:
     - _Curl_Strength_Raymarch_Offset: 2
     - _Curl_Strength_Raymarch_Sample: 0.2
     - _Cutoff: 0.5
-    - _Density: 0.51
+    - _Density: 0.67
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -179,7 +179,7 @@ Material:
     - _Main_Light_Anisotropic_Blend: 0.8
     - _Main_Light_Anisotropy: 0.715
     - _Main_Light_Anisotropy_Blend: 0.344
-    - _Main_Light_Intensity: 0.903
+    - _Main_Light_Intensity: 1
     - _Main_Light_Self_Shadow_Absorption_Coefficient: 0.5
     - _Main_Light_Self_Shadow_Raymarch_Distance: 5
     - _Main_Light_Self_Shadow_Raymarch_Steps: 8
@@ -249,14 +249,14 @@ Material:
     - _Cloud_Noise_Voronoi_Animation: {r: 0, g: 0, b: 0.5, a: 0.5}
     - _Cloud_Noise_Voronoi_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 0.36933854, b: 0, a: 1}
-    - _Colour: {r: 0.03773594, g: 0.012431439, b: 0.0119259795, a: 1}
+    - _Colour: {r: 0.509434, g: 0.34925964, b: 0.31479177, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Offset: {r: 0, g: 0, b: 0, a: 45}
     - _Raymarch_Vertical_Range: {r: 0, g: 0.1, b: 0, a: 0}
     - _Simplex_Noise_Animation: {r: 0.2, g: 0.2, b: -0.25, a: -0.5}
     - _Simplex_Noise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Tint: {r: 0.20518868, g: 0.14686126, b: 0.08226904, a: 1}
+    - _Tint: {r: 0.2264151, g: 0.09791475, b: 0.07155571, a: 1}
     - _Voronoi_Noise_Animation: {r: -0.08, g: 0.2, b: -0.2, a: 1}
     - _Voronoi_Noise_Offset: {r: 0, g: 0, b: 0, a: 45}
   m_BuildTextureStacks: []

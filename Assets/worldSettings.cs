@@ -1,15 +1,12 @@
+using MirzaBeig.VolumetricFogLite;
 using UnityEngine;
 
 public class worldSettings : MonoBehaviour
 {
-    [SerializeField] private Material fogAsset;
-    [SerializeField] private Color fogColor, tintColor;
-    [SerializeField] private float lightStrength;
-    
+    [SerializeField] private Material sceneFogAsset;
+    [SerializeField] private VolumetricFogRendererFeatureLite visualAssignment;
 
-    void Start(){
-        fogAsset.SetFloat("_Main_Light_Intensity", lightStrength);
-        fogAsset.SetColor("_Colour", fogColor);
-        fogAsset.SetColor("_Tint", tintColor);
+    void Awake(){
+        visualAssignment.settings.fogMaterial = sceneFogAsset;
     }
 }
