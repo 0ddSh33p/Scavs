@@ -183,14 +183,14 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _Tiling: 15.1
-    - _Tiling2: 0.89
+    - _Tiling: 43.7
+    - _Tiling2: 20.86
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _smooth: 0.35
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.9716981, g: 0.84954834, b: 0.6737718, a: 1}
+    - _Color: {r: 1, g: 0.75117284, b: 0.514151, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

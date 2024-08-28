@@ -8,7 +8,7 @@ public class NetworkManagerUI : NetworkBehaviour
    
     [SerializeField]private Button hostBtn, clientBtn;
     [SerializeField]private relay Relay;
-    [SerializeField]private GameObject sceneCamera;
+    [SerializeField]private GameObject sceneCamera, menuUI;
     [SerializeField]private TMP_InputField code;
     [SerializeField]private TMP_Text joinCode;
 
@@ -19,13 +19,14 @@ public class NetworkManagerUI : NetworkBehaviour
             code.text = Relay.code;
             joinCode.text = Relay.code;
             sceneCamera.SetActive(false);
+            menuUI.SetActive(false);
             
         });
         clientBtn.onClick.AddListener(() => {
             try{
             Relay.joinLay(code.text);
             joinCode.text = code.text;
-            
+            menuUI.SetActive(false);
             }
             catch{
                 Debug.Log("bad code");

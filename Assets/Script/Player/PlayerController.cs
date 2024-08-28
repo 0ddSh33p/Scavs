@@ -24,16 +24,16 @@ public class PlayerController : NetworkBehaviour
             transform.position = tempObj.transform.position;
         }
 
-        tempObj = GameObject.FindWithTag("WorldSeed");
+        /*tempObj = GameObject.FindWithTag("WorldSeed");
         if(tempObj.GetComponent<seedGen>() != null){
             tempObj.GetComponent<seedGen>(). players.Add(gameObject);
-        }
+        }*/
 
     }
 
-    void Start(){
+    /*void Start(){
         GameObject.FindGameObjectWithTag("WorldSeed").GetComponent<seedGen>().players.Add(gameObject);
-    }
+    }*/
 
 
     void FixedUpdate()
