@@ -39,6 +39,6 @@ Material:
     m_Floats:
     - _NoiseDepth: 1.6
     - _NoiseInterferance: 0.1
-    - _Steps: 36
+    - _Steps: 32
     m_Colors: []
   m_BuildTextureStacks: []
