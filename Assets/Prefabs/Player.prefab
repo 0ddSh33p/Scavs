@@ -1206,15 +1206,17 @@ MonoBehaviour:
   walkSpeed: 12
   crouchSpeed: 5
   runSpeed: 21
-  jumpH: 35
+  jumpH: 60
   maxGround: 3.85
-  grav: 0.2
+  regGrav: 0.2
   sensitivity: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 139
   cam: {fileID: 5763517000451940366}
   flashLight: {fileID: 6489059867403152999}
+  myZone: {fileID: 0}
+  grav: 7.81
 --- !u!54 &8988326745938030325
 Rigidbody:
   m_ObjectHideFlags: 0

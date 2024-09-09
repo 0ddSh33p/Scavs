@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
 {
-    [SerializeField] private float walkSpeed = 4, crouchSpeed = 2, runSpeed = 7, jumpH = 12, maxGround = 0.2f, grav = 0.2f, sensitivity = 0.5f;
+    [SerializeField] private float walkSpeed = 4, crouchSpeed = 2, runSpeed = 7, jumpH = 12, maxGround = 0.2f,regGrav, sensitivity = 0.5f;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject cam, flashLight;
 
@@ -12,13 +12,16 @@ public class PlayerController : NetworkBehaviour
     private float speed;
     private int gear;
     private bool grounded, lIO;
+    public GravityDisruptionUnit myZone = null;
     
+    public float grav = 0.2f;
  
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         gear = 2;
-
+        grav = regGrav;
+        
         GameObject tempObj = GameObject.FindWithTag("PrimarySpawn");
         if( tempObj != null){
             transform.position = tempObj.transform.position;
@@ -31,9 +34,16 @@ public class PlayerController : NetworkBehaviour
 
     }
 
-    /*void Start(){
-        GameObject.FindGameObjectWithTag("WorldSeed").GetComponent<seedGen>().players.Add(gameObject);
-    }*/
+    private void OnTriggerEnter(Collider other){
+        if(other.CompareTag("gravField")){
+            myZone = other.GetComponent<GravityDisruptionUnit>();
+        }
+    }
+    private void OnTriggerExit(Collider other){
+        if(other.CompareTag("gravField")){
+            myZone = null;
+        }
+    }
 
 
     void FixedUpdate()
@@ -63,8 +73,13 @@ public class PlayerController : NetworkBehaviour
         if(horz != 0 && vert != 0){
             speed /= 1.3f;
         }
+        grav = rb.velocity.y - regGrav;
 
-        vel = new Vector3(0,rb.velocity.y - grav,0);
+        if(myZone != null){
+            grav *= (myZone.getLevel(transform.position) + 0.00001f);
+        }
+
+        vel = new Vector3(0,grav,0);
         
         vel += transform.forward * vert * speed;
         vel += transform.right * horz * speed;
